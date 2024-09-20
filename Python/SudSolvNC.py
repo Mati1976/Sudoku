@@ -132,10 +132,6 @@ mat = np.array([[0,2,0,0,1,0],
  [0,1,0,0,5,0]])
 
 
-##print(mat[0:3])
-##print(mat[0:2,0:4])
-
-#print(mat[0:2,0:4].shape)
 rows = mat.shape[0]
 columns = mat.shape[1]
 
@@ -150,39 +146,7 @@ else:
         print('Error!')
         
             
-        
-    
-
 res = init(rows,columns,mat)
-
-print(res)
-
-
-
-
-
-#print(mat2)
-#print(type(mat2))
-#print(mat2.shape)
-
-#print(res.shape)
-#print(square(0,0,res))
-#print(MatShape(0,0,4,1,res))#print(MatShape(0,0,1,4,res))
-
-
-
-
-temp = square (2,1,SR,SC,res)
-print('temp')
-print(temp)
-tempnums = nums(SR,SC,temp)
-NewTemp = BlockSolvBasic (SR,SC, temp)
-print('newtemp:')
-print(NewTemp)
-
-print(tempnums)
-print('temp:')
-print(temp)
 
 print('mat:')
 print(res)
@@ -220,35 +184,6 @@ print(res)
 MatBlockSolvBasic(rows,columns,SR,SC,res)
 print('new mat9:')
 print(res)
-#tempd = digitize(temp[0,0])
-
-##print(numberize(tempd))
-##ind = np.where(tempd == 3)[0][0]
-##print(ind)
-##tempd= np.delete(tempd,ind)
-##print(tempd)
-##print(numberize(tempd))
-
-NewNum=DelItem(2,123456)
-NewNum2= DelItem(5,NewNum)
-
-print ('test')
-NewNum3 = DelMultiItems([2,5],12346)
-print(NewNum3)
-
-row1= Row(0,res)
-print('row:')
-print(row1)
-print('nums:')
-print(nums(1,6, row1))
-print(type(nums(1,6, row1)))
-RowSolvBasic (rows,columns, row1)
-print('row new:')
-print(row1)
 
 
-##print(Row(5,res))
-##print(Col(4,res))
-#rint(res[0:3,0:3].shape)
 
-#print(fill(6))
