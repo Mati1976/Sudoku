@@ -1,5 +1,5 @@
 import numpy as np
-global StepCounter
+StepCounter = 0
 
 def MatShape(r,c,m,n,mat):
     
@@ -77,17 +77,17 @@ def DelMultiItems(digArr,num):
     return Newnum
 
 def BlockSolvBasic (SmallRow,SmallCol, block):
-    nonlocal StepCounter
+    global StepCounter
     NUMBs = nums(SmallRow,SmallCol, block)
     for i in range(0, SmallRow):
         for j in range(0, SmallCol):
             if ((block[i][j]) // 10 != 0):
                 block[i][j] = DelMultiItems(NUMBs,block[i][j])
     StepCounter += 1
-    return block,stepcounter
+    return block
 
 def RowSolvBasic (Row,Col, row):
-    nonlocal StepCounter
+    global StepCounter
     NUMBs = nums(1,Col, row)
     for j in range(0, Col):
         if ((row[0][j]) // 10 != 0):
@@ -96,7 +96,7 @@ def RowSolvBasic (Row,Col, row):
     return row 
 
 def ColSolvBasic (Row,Col, col):
-    nonlocal StepCounter
+    global StepCounter
     NUMBs = nums(Row,1, col)
     for i in range(0, Row):
         if ((col[i][0]) // 10 != 0):
