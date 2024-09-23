@@ -1,119 +1,11 @@
+
+#--------------------------------------------------------------------------Main---------------------------------------------------------------------------------------            
 import numpy as np
 
+import SudFunc as sf
 
-def MatShape(r,c,m,n,mat):
-    
-    res = mat[r:r+m,c:c+n]
-    
-    return res
-
-def square(a,b,SmallRow,SmallCol,mat):
-    res=MatShape(a*SmallRow,b*SmallCol,SmallRow,SmallCol,mat)
-    
-    return res
-
-def Col(b,mat):
-
-    res=MatShape(0,b,9,1,mat)
-    return res
-
-def Row(a,mat):
-    
-    res=MatShape(a,0,1,9,mat)
-    return res
-
-def init(r,c, mat):
-    res = np.array([ [0]*c for i in range(r)])
-    for i in range(0, r):
-        for j in range(0, c):
-            if mat[i][j] == 0:
-                res[i][j] = fill(r)
-            else:
-                res[i][j] = mat[i][j]
-    return res
-    
-def nums(SmallRow,SmallCol, block):
-    resl = []
-    for i in range(0, SmallRow):
-        for j in range(0, SmallCol):
-            if ((block[i][j]) // 10 == 0):
-                resl.append(block[i][j])
-    res = np.array(resl)
-    return res
-
-def fill(size):
-    res = 0
-    for i in range(size):
-        res = res * 10 + i + 1
-    return res
-
-def digitize(num):
-    digi = []
-    while num > 0:
-        digi.insert(0, num % 10)
-        num = num // 10
-    digits = np.array(digi)
-    return digits
-
-def numberize(dig):
-    res = 0
-    for item in dig:
-        res = res * 10 + item 
-    return res
-
-def DelItem(dig,num):
-    numd = digitize(num)
-    NewNum = num 
-    if (dig in numd):
-        ind = np.where(numd == dig)[0][0]
-        numd = np.delete(numd,ind)
-        NewNum = numberize(numd)
-    return NewNum
-
-def DelMultiItems(digArr,num):
-    Newnum = num
-    for item in digArr:
-        Newnum = DelItem(item, Newnum)
-    return Newnum
-
-def BlockSolvBasic (SmallRow,SmallCol, block):
-    NUMBs = nums(SmallRow,SmallCol, block)
-    for i in range(0, SmallRow):
-        for j in range(0, SmallCol):
-            if ((block[i][j]) // 10 != 0):
-                block[i][j] = DelMultiItems(NUMBs,block[i][j])
-    return block
-
-def RowSolvBasic (Row,Col, row):
-    NUMBs = nums(1,Col, row)
-    for j in range(0, Col):
-        if ((row[0][j]) // 10 != 0):
-            row[0][j] = DelMultiItems(NUMBs,row[0][j])
-    return row
-
-def ColSolvBasic (Row,Col, col):
-    NUMBs = nums(Row,1, col)
-    for i in range(0, Row):
-        if ((col[i][0]) // 10 != 0):
-            col[i][0] = DelMultiItems(NUMBs,col[i][0])
-    return col
-
-def MatBlockSolvBasic(Rows,Columns,SmallRow,SmallCol,mat):
-    for i in range(0, Rows // SmallRow):
-        for j in range(0, Columns // SmallCol ):
-            BlockSolvBasic (SmallRow,SmallCol, square(i,j,SmallRow,SmallCol,mat))
-            
-            
-def MatRowSolvBasic(Rows,Columns,mat):
-    for j in range(0, Columns):
-        RowSolvBasic (Rows,Columns, Row(j,mat))
-
-def MatColSolvBasic(Rows,Columns,mat):
-    for i in range(0, Rows):
-        ColSolvBasic (Rows,Columns, Col(i,mat))
-
-            
-mat = np.array([[0,7,0,0,5,0,0,6,0],
+mat2 = np.array(
+[[0,7,0,0,5,0,0,6,0],
  [4,0,0,9,0,3,0,0,1],
  [0,0,8,0,0,0,3,0,0],
  [0,5,0,0,0,0,0,4,0],
@@ -123,8 +15,32 @@ mat = np.array([[0,7,0,0,5,0,0,6,0],
  [9,0,0,1,0,7,0,0,6],
  [0,8,0,0,3,0,0,5,0]])
 
+mat3 = np.array(
+[[0,0,0,0,5,1,0,0,0],
+ [0,0,2,3,0,0,1,0,9],
+ [0,0,1,9,8,2,3,0,0],
+ [0,8,4,0,3,7,0,0,0],
+ [0,6,0,0,4,0,0,7,0],
+ [9,0,0,0,0,0,4,0,0],
+ [2,0,0,5,0,0,6,3,0],
+ [0,4,0,0,2,0,0,9,1],
+ [0,9,0,1,0,0,0,4,0]])
 
-mat = np.array([[0,2,0,0,1,0],
+mat4 = np.array(
+[[5,0,2,0,9,0,1,0,0],
+ [0,0,0,1,0,0,0,8,0],
+ [3,0,0,0,0,6,0,0,2],
+ [0,4,0,0,0,0,7,0,0],
+ [6,0,0,0,0,0,0,0,1],
+ [0,0,5,0,0,0,0,9,0],
+ [9,0,0,7,0,0,0,0,4],
+ [0,6,0,0,0,3,0,0,0],
+ [0,0,7,0,2,0,5,0,3]])
+
+
+
+mat = np.array(
+[[0,2,0,0,1,0],
  [5,0,0,2,0,6],
  [0,0,4,0,2,0],
  [0,6,0,3,0,0],
@@ -132,9 +48,15 @@ mat = np.array([[0,2,0,0,1,0],
  [0,1,0,0,5,0]])
 
 
-rows = mat.shape[0]
+# Initializing our step counter
+StepCounter = 0 
+
+# Getting the shape of our matrix 
+rows = mat.shape[0] 
 columns = mat.shape[1]
 
+
+# Setting up our block sizes based on the size of the Matrix (need to be updated for other cases ) 
 if ((rows==9 and columns==9)) :
     SR=3
     SC=3
@@ -144,46 +66,82 @@ else:
         SC=3
     else:
         print('Error!')
-        
-            
-res = init(rows,columns,mat)
+
+
+# Initializing our score vectors for the rows, columns, blocks and setting the MAx values for each 
+ScoreRMax = columns
+ScoreCMax = rows
+ScoreBMax = SR*SC
+ScoreMMAx = rows*columns
+
+ScoreR = np.zeros((rows,1),).astype(int)
+ScoreC = np.zeros((1,columns),).astype(int)
+ScoreB = np.zeros((rows//SR,columns//SC),).astype(int)
+
+# print (ScoreM)
+res = sf.init(rows,columns,mat)
+
+sf.RowScoreVecInit(rows,columns,res,ScoreR)
+sf.ColScoreVecInit(rows,columns,res,ScoreC)
+sf.BlockScoreMatInit(SR,SC,res,ScoreB)
+
+print(ScoreR)
+print(ScoreC)
+print(ScoreB)
+
 
 print('mat:')
 print(res)
+print('Step counter: '+str(StepCounter))
+#print (ScoreR)
+#print (ScoreC)
+print(sf.RowScore (rows,columns,sf.Row(1,res)))
+print(sf.ColScore (rows,columns,sf.Col(4,res)))
+print(sf.BlockScore (SR,SC,sf.square(0,0,SR,SC,res)))
 
-MatBlockSolvBasic(rows,columns,SR,SC,res)
+sf.MatBlockSolvBasic(rows,columns,SR,SC,res)
+##print('test')
+##print(sf.RowSolvBasic(rows,columns,sf.Row(1,res),StepCounter))
+##print('test')
 print('new mat:')
 print(res)
-
-MatRowSolvBasic(rows,columns,res)
+print('Step counter: '+str(StepCounter))
+sf.MatRowSolvBasic(rows,columns,res)
 print('new mat2:')
 print(res)
+print('Step counter: '+str(StepCounter))
 
-MatColSolvBasic(rows,columns,res)
+sf.MatColSolvBasic(rows,columns,res)
 print('new mat3:')
 print(res)
-MatRowSolvBasic(rows,columns,res)
+
+print(sf.RowScore (rows,columns,sf.Row(1,res)))
+print(sf.ColScore (rows,columns,sf.Col(4,res)))
+print(sf.BlockScore (SR,SC,sf.square(0,0,SR,SC,res)))
+
+sf.MatRowSolvBasic(rows,columns,res)
 print('new mat4:')
 print(res)
 
-MatColSolvBasic(rows,columns,res)
+sf.MatColSolvBasic(rows,columns,res)
 print('new mat5:')
 print(res)
 
-MatBlockSolvBasic(rows,columns,SR,SC,res)
+sf.MatBlockSolvBasic(rows,columns,SR,SC,res)
 print('new mat6:')
 print(res)
-MatRowSolvBasic(rows,columns,res)
+sf.MatRowSolvBasic(rows,columns,res)
 print('new mat7:')
 print(res)
 
-MatColSolvBasic(rows,columns,res)
+sf.MatColSolvBasic(rows,columns,res)
 print('new mat8:')
 print(res)
 
-MatBlockSolvBasic(rows,columns,SR,SC,res)
+sf.MatBlockSolvBasic(rows,columns,SR,SC,res)
 print('new mat9:')
 print(res)
+print('Step counter: '+str(StepCounter))
 
 
 
