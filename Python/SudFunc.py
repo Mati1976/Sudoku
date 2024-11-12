@@ -33,16 +33,14 @@ def init(r,c, mat):
     return res
 
 def initBin(r,c, mat):
-    res = np.array([ [0]*c for i in range(r)])
+    InitElement = np.zeros(r,dtype=int)
+    resBin = np.array([[InitElement for x in range(r)] for y in range(c)])
     for i in range(0, r):
         for j in range(0, c):
-            if mat[i][j] == 0:
-                res[i][j] = fill(r)
-            else:
-                res[i][j] = mat[i][j]
-    return res
+            resBin[i][j] = NumToBin (r,c,mat[i][j])
+    return resBin
 
-def NumToBin (r,c,num):    
+def NumToBin2 (r,c,num):    
     if (num // 10) != 0:
         NumList= np.zeros(r, dtype=int)
         S = len(str(num))
@@ -51,8 +49,17 @@ def NumToBin (r,c,num):
             num = num // 10
         BinNum = NumList
     else: 
-        BinNum = num
+        BinNum = np.zeros(r, dtype=int)
 
+    return BinNum
+
+def NumToBin (r,c,num):    
+    NumList= np.zeros(r, dtype=int)
+    S = len(str(num))
+    for i in range(S):
+        NumList[r -(num % 10)] = 1
+        num = num // 10
+    BinNum = NumList
     return BinNum
 
 def nums(SmallRow,SmallCol, block):
